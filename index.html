@@ -620,7 +620,11 @@
     const messageInput = document.getElementById('message');
     const formMessage = document.getElementById('form-message');
     const isLocalFile = window.location.protocol === 'file:';
-    const submitUrl = isLocalFile ? 'http://127.0.0.1:5000/submit' : '/submit';
+    // Replace <YOUR_BACKEND_DOMAIN> with your deployed backend (Render/Heroku/etc.)
+    // Example: 'https://my-portfolio.onrender.com/submit'
+    const submitUrl = (isLocalFile || location.hostname === '127.0.0.1' || location.hostname === 'localhost')
+      ? 'http://127.0.0.1:5000/submit'
+      : 'https://<YOUR_BACKEND_DOMAIN>/submit';
 
     contactForm.addEventListener('submit', async event => {
       event.preventDefault();
