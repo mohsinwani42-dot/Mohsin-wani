@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mohsin wani</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #111827;
+      --text: #e5e7eb;
+      --muted: rgba(255, 255, 255, 0.842); /* lighter muted text for contrast */
+      --accent: #38bdf8;
+      --border: rgba(147, 166, 185, 0.2);
+      font-family: Inter, system-ui, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at top, rgba(56, 189, 248, 0.18), transparent 30%),
+        linear-gradient(180deg, #020617 0%, #111827 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .page {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 40px 24px 56px;
+      min-height: 100vh;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 40px;
+      padding: 18px 24px;
+      background: rgba(15, 23, 42, 0.7);
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(14px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-size: 1.35rem;
+      color: var(--accent);
+    }
+
+    .brand-logo {
+      width: 92px;
+      height: 92px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center 10%;
+      display: inline-block;
+      vertical-align: middle;
+      border: 2px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.08);
+      box-shadow: 0 18px 38px rgba(2,6,23,0.35);
+    }
+
+    nav a {
+      color: rgba(226, 232, 240, 0.84);
+      text-decoration: none;
+      margin-left: 18px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      transition: all 0.25s ease;
+    }
+
+    nav a:hover,
+    nav a:focus-visible {
+      color: #ffffff;
+      background: rgba(56, 189, 248, 0.12);
+      border-color: rgba(56, 189, 248, 0.2);
+    }
+
+    .hero {
+      position: relative;
+      display: grid;
+      gap: 32px;
+      grid-template-columns: minmax(0, 1fr) 320px;
+      align-items: center;
+      padding: 48px 40px;
+      overflow: hidden;
+      border-radius: 32px;
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(12px);
+      min-height: 500px;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.15), transparent 24%),
+        radial-gradient(circle at bottom right, rgba(59, 130, 246, 0.1), transparent 25%);
+      z-index: 1;
+      pointer-events: none;
+      border-radius: 32px;
+    }
+
+    .hero video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.18;
+      z-index: 0;
+    }
+
+    .hero > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-content {
+      max-width: 640px;
+      padding-right: 12px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.75rem, 4vw, 4.5rem);
+      letter-spacing: -0.05em;
+      margin-bottom: 18px;
+      line-height: 0.95;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      margin-bottom: 32px;
+      max-width: 680px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .hero-actions a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 26px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+      color: #0f172a;
+      box-shadow: 0 16px 30px rgba(56, 189, 248, 0.16);
+    }
+
+    .btn-secondary {
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .btn-primary:hover,
+    .btn-secondary:hover {
+      transform: translateY(-2px);
+      opacity: 0.95;
+    }
+
+    .hero-panel {
+      background: linear-gradient(180deg, rgba(15,23,42,0.95), rgba(15,23,42,0.85));
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 28px;
+      padding: 32px;
+      min-height: 300px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
+    }
+
+    .hero-panel h2 {
+      font-size: 1.2rem;
+      margin-bottom: 14px;
+      color: #ffffff;
+    }
+
+    .hero-panel p {
+      color: var(--muted);
+    }
+
+    section {
+      margin-top: 60px;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .section-heading h2 {
+      font-size: 1.55rem;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      max-width: 700px;
+      margin-top: 8px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 24px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 28px;
+      padding: 28px;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.18);
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(56, 189, 248, 0.5);
+      box-shadow: 0 24px 55px rgba(0,0,0,0.24);
+    }
+
+    .card h3 {
+      margin-bottom: 14px;
+      font-size: 1.2rem;
+      color: #ffffff;
+    }
+
+    .card p {
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 14px;
+      border-radius: 999px;
+      background: rgba(56, 189, 248, 0.18);
+      color: #c2e7ff;
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .hero-heading {
+      display: grid;
+      gap: 18px;
+    }
+
+    .hero-photo {
+      width: 240px;
+      min-width: 240px;
+      border-radius: 32px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.05);
+      box-shadow: 0 24px 65px rgba(0, 0, 0, 0.25);
+    }
+
+    .hero-photo img {
+      display: block;
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+
+    .contact-grid {
+      display: grid;
+      gap: 24px;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+      margin-top: 24px;
+    }
+
+    .contact-form {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 28px;
+      padding: 34px;
+      box-shadow: 0 24px 55px rgba(0,0,0,0.2);
+    }
+
+    .contact-form h3 {
+      margin-bottom: 18px;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+    }
+
+    .contact-form label {
+      display: block;
+      margin-bottom: 10px;
+      color: rgba(226, 232, 240, 0.76);
+      font-size: 0.95rem;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 16px 18px;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+      margin-bottom: 18px;
+      resize: vertical;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      outline: none;
+      border-color: rgba(56, 189, 248, 0.6);
+      box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.12);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .contact-form button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 26px;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+      color: #0f172a;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .contact-form button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 30px rgba(56, 189, 248, 0.18);
+    }
+
+    .contact-form button:hover {
+      opacity: 0.95;
+    }
+
+    .form-message {
+      margin-top: 18px;
+      padding: 16px 18px;
+      border-radius: 16px;
+      background: rgba(56, 189, 248, 0.18);
+      border: 1px solid rgba(56, 189, 248, 0.28);
+      color: #dbeafe;
+      line-height: 1.6;
+      min-height: 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    footer {
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: space-between;
+    }
+
+    @media (max-width: 840px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 520px) {
+      header,
+      .hero-actions,
+      footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      nav a {
+        margin-left: 0;
+      }
+    }
+    /* Map styles */
+    #map {
+      height: 240px;
+      border-radius: 12px;
+      margin-top: 12px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .map-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .map-controls button {
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg,#38bdf8,#0ea5e9);
+      color: #0f172a;
+      cursor: pointer;
+    }
+
+    .map-controls p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin: 0;
+    }
+    .map-search{display:flex;gap:8px;margin-top:10px}
+    .map-search input{flex:1;padding:8px 10px;border-radius:12px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);color:var(--text)}
+    .map-search button{padding:8px 12px;border-radius:12px;border:none;background:rgba(56,189,248,0.14);color:var(--text);cursor:pointer}
+
+    /* pulsing marker */
+    .pulse-icon{width:36px;height:36px;display:inline-block;position:relative}
+    .pulse-icon::after{content:"";position:absolute;inset:-8px;border-radius:50%;background:rgba(56,189,248,0.18);animation:pulse 1.8s infinite}
+    .pulse-icon img{width:36px;height:36px;border-radius:50%;display:block;border:2px solid white}
+    @keyframes pulse{0%{transform:scale(.9);opacity:1}70%{transform:scale(2.2);opacity:0}100%{opacity:0}}
+
+    /* modal styles */
+    .map-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(2,6,23,0.6);z-index:9999}
+    .map-modal[aria-hidden="false"]{display:flex}
+    .map-modal-inner{width:92%;max-width:1100px;height:82%;background:linear-gradient(180deg,rgba(0,0,0,0.6),rgba(0,0,0,0.4));border-radius:14px;padding:12px;display:flex;flex-direction:column}
+    #map-large{flex:1;border-radius:10px;border:1px solid rgba(255,255,255,0.06)}
+    .map-close{align-self:flex-end;padding:8px 12px;border-radius:999px;border:none;background:rgba(255,255,255,0.06);color:var(--text);cursor:pointer}
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="brand">
+        <img src="assets/logo.jpeg" alt="Mohsin wani" class="brand-logo">
+        Mohsin wani
+      </div>
+      <nav>
+        <a href="#about">About</a>
+        <a href="#work">Work</a>
+        <a href="#contact">Contact</a>
+        <a href="/submissions" target="_blank" rel="noreferrer">Submissions</a>
+      </nav>
+    </header>
+
+ 
+
+    <main>
+     
+      <section class="hero">
+        <video autoplay muted loop playsinline>
+          <source src="assets/hero-tech.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <div class="hero-content">
+          <div class="hero-heading">
+          <div>
+          <p class="chip">First web project</p>
+          <h1>Build bold digital experiences with clean code.</h1>
+          <p>This site is my first full portfolio project, built with HTML, CSS, JavaScript, and a Python contact backend. It shows what I can do today and what I am learning next.</p>
+    
+           
+          </div>
+          <div class="hero-actions">
+            <a class="btn-primary" href="#work">View Projects</a>
+            <a class="btn-secondary" href="#contact">Get in Touch</a>
+          </div>
+         
+        </div>
+
+        <div class="hero-panel">
+          <h2>Featured skills</h2>
+          <p>HTML, CSS, JavaScript, responsive layouts, accessibility, animation, and performance tuning. I enjoy turning ideas into interface designs with meaningful interactions.</p>
+        </div>
+      </section>
+
+      <section id="about">
+        <div class="section-heading">
+          <div>
+            <h2>About me</h2>
+            <p>I build modern websites and subtle user interfaces for startups, freelancers, and creative teams. I love clean structure, readable code, and strong visual rhythm.</p>
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="card">
+            <h3>What I do</h3>
+            <p>Design and develop responsive landing pages, portfolio sites, and product experiences using semantic HTML, CSS, and JavaScript.</p>
+          </div>
+          <div class="card">
+            <h3>How I work</h3>
+            <p>I focus on clarity, performance, and accessibility, while keeping collaboration smooth through simple, reusable patterns.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="work">
+        <div class="section-heading">
+          <div>
+            <h2>What I built</h2>
+            <p>My first portfolio project: a modern website with a contact form and Python backend to save messages.</p>
+          </div>
+        </div>
+
+        <div class="grid">
+          <article class="card">
+            <h3>Portfolio homepage</h3>
+            <p>A responsive landing section that introduces me, highlights skills, and guides visitors to contact me.</p>
+          </article>
+          <article class="card">
+            <h3>Interactive contact form</h3>
+            <p>A working form that sends data to a backend and shows feedback directly in the browser.</p>
+          </article>
+          <article class="card">
+            <h3>Backend storage</h3>
+            <p>Python-powered submission handling that stores messages in a file and provides a browser viewer for saved entries.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="contact">
+        <div class="section-heading">
+          <div>
+            <h2>Contact</h2>
+            <p>Ready to collaborate? Send a message to discuss a project, freelance work, or a new idea.</p>
+          </div>
+        </div>
+
+        <div class="contact-grid">
+          <div class="contact-form">
+            <h3>Send a message</h3>
+            <form id="contact-form">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" placeholder="Your name" />
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="you@example.com" />
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="6" placeholder="Tell me about your project"></textarea>
+              <button type="submit">Send Message</button>
+            </form>
+            <div class="form-message" id="form-message"></div>
+          </div>
+
+          <div class="card">
+            <h3>Contact details</h3>
+            <p>Email: <a href="mailto:mohsinwani42@gmail.com">mohsinwani42@gmail.com</a></p>
+            <p>Location: Remote / Available Worldwide</p>
+            <p>LinkedIn: <a href="https://www.linkedin.com" target="_blank" rel="noreferrer">linkedin.com/in/mohsinwani</a></p>
+            <div id="map" aria-label="Location map" tabindex="0"></div>
+            <div class="map-search">
+              <input id="map-search-input" placeholder="Search address or place" aria-label="Search address">
+              <button id="map-search-btn" type="button">Search</button>
+            </div>
+            <div class="map-controls">
+              <button id="locate-btn" type="button">Use my location</button>
+              <button id="open-map-btn" type="button">Open map</button>
+              <p id="map-note">Click to explore or search an address.</p>
+            </div>
+
+            <!-- Fullscreen modal for larger map -->
+            <div id="map-modal" class="map-modal" aria-hidden="true">
+              <div class="map-modal-inner">
+                <button id="map-close" class="map-close">Close</button>
+                <div id="map-large"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div>� 2026 Mohsin wani</div>
+      <div>Built with HTML & CSS</div>
+    </footer>
+  </div>
+
+  <script>
+    const smoothLinks = document.querySelectorAll('nav a[href^="#"]');
+    smoothLinks.forEach(link => {
+      link.addEventListener('click', event => {
+        event.preventDefault();
+        const targetId = link.getAttribute('href').slice(1);
+        const target = document.getElementById(targetId);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    const contactForm = document.getElementById('contact-form');
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const messageInput = document.getElementById('message');
+    const formMessage = document.getElementById('form-message');
+    const isLocalFile = window.location.protocol === 'file:';
+    const submitUrl = isLocalFile ? 'http://127.0.0.1:5000/submit' : '/submit';
+
+    contactForm.addEventListener('submit', async event => {
+      event.preventDefault();
+      formMessage.textContent = '';
+      const name = nameInput.value.trim();
+      const email = emailInput.value.trim();
+      const message = messageInput.value.trim();
+      if (!name || !email || !message) {
+        formMessage.textContent = 'Please fill in your name, email, and message.';
+        return;
+      }
+
+      try {
+        const response = await fetch(submitUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, message })
+        });
+        const resultText = await response.text();
+        if (!response.ok) {
+          let errorMessage = resultText;
+          try {
+            const errorJson = JSON.parse(resultText);
+            errorMessage = errorJson.message || errorMessage;
+          } catch {
+            // keep raw text if not JSON
+          }
+          throw new Error(errorMessage || 'Submission failed.');
+        }
+        const result = JSON.parse(resultText);
+        formMessage.textContent = result.message || 'Message sent successfully.';
+        contactForm.reset();
+      } catch (error) {
+        formMessage.textContent = `Failed to submit: ${error.message}`;
+        if (isLocalFile) {
+          formMessage.textContent += ' (Please open the page at http://127.0.0.1:5000 instead of using file://)';
+        }
+      }
+    });
+
+    // Map features: lazy-load Leaflet, dark tiles, pulsing icon, search, modal, locate
+    (function(){
+      const mapEl = document.getElementById('map');
+      if (!mapEl) return;
+
+      let leafletLoaded = false;
+      function loadLeaflet(){
+        if (leafletLoaded) return Promise.resolve();
+        leafletLoaded = true;
+        return new Promise((resolve, reject) => {
+          const css = document.createElement('link');
+          css.rel = 'stylesheet';
+          css.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+          document.head.appendChild(css);
+          const s = document.createElement('script');
+          s.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+          s.onload = () => resolve();
+          s.onerror = () => reject(new Error('Failed to load Leaflet'));
+          document.body.appendChild(s);
+        });
+      }
+
+      const defaultCenter = [20,0];
+      const defaultZoom = 2;
+      let smallMap, largeMap, contactMarker, smallMarker, largeMarker;
+
+      function getContactHtml(){
+        const email = document.querySelector('.card a[href^="mailto:"]')?.getAttribute('href') || '#';
+        const linkedin = document.querySelector('.card a[href*="linkedin.com"]')?.getAttribute('href') || '#';
+        return `<div style="line-height:1.4"><strong>Contact</strong><br><a href="${email}">${email.replace('mailto:','')}</a><br><a href="${linkedin}" target="_blank" rel="noreferrer">LinkedIn</a></div>`;
+      }
+
+      function createPulsingIcon(){
+        return L.divIcon({
+          className: '',
+          html: '<div class="pulse-icon"><img src="assets/logo.jpeg" alt="profile"></div>',
+          iconSize: [36,36],
+          iconAnchor: [18,36]
+        });
+      }
+
+      function initSmallMap(){
+        if (smallMap) return;
+        smallMap = L.map('map', {scrollWheelZoom:false, zoomControl:false}).setView(defaultCenter, defaultZoom);
+        const darkTiles = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
+        L.tileLayer(darkTiles, {attribution: '&copy; OpenStreetMap & CARTO'}).addTo(smallMap);
+
+        // Permanent contact marker (center by default)
+        contactMarker = L.marker(defaultCenter, {icon: createPulsingIcon()}).addTo(smallMap).bindPopup(getContactHtml());
+
+        // Add small click to open modal
+        document.getElementById('open-map-btn')?.addEventListener('click', openModal);
+        mapEl.addEventListener('click', openModal);
+
+        // basic map click to show coordinates
+        smallMap.on('click', e => {
+          const {lat,lng} = e.latlng;
+          L.popup().setLatLng(e.latlng).setContent(`Lat: ${lat.toFixed(4)}, Lng: ${lng.toFixed(4)}`).openOn(smallMap);
+        });
+      }
+
+      function initLargeMap(center){
+        if (largeMap) return;
+        largeMap = L.map('map-large').setView(center || defaultCenter, 13);
+        const darkTiles = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
+        L.tileLayer(darkTiles, {attribution: '&copy; OpenStreetMap & CARTO'}).addTo(largeMap);
+        largeMarker = L.marker(center || defaultCenter, {icon: createPulsingIcon()}).addTo(largeMap).bindPopup(getContactHtml()).openPopup();
+      }
+
+      function openModal(){
+        loadLeaflet().then(()=>{
+          initSmallMap();
+          const modal = document.getElementById('map-modal');
+          const largeEl = document.getElementById('map-large');
+          modal.setAttribute('aria-hidden','false');
+          const center = contactMarker ? contactMarker.getLatLng() : smallMap.getCenter();
+          // initialize large map lazily
+          if (!largeMap){
+            initLargeMap([center.lat, center.lng]);
+            // after small delay invalidate size so tiles render
+            setTimeout(()=>largeMap.invalidateSize(),100);
+          } else {
+            largeMap.setView([center.lat, center.lng], Math.max(largeMap.getZoom(), 13));
+            largeMarker.setLatLng([center.lat, center.lng]).openPopup();
+            setTimeout(()=>largeMap.invalidateSize(),50);
+          }
+        }).catch(err=>console.error(err));
+      }
+
+      document.getElementById('map-close')?.addEventListener('click', ()=>{
+        const modal = document.getElementById('map-modal');
+        modal.setAttribute('aria-hidden','true');
+      });
+
+      // search functionality using Nominatim
+      async function searchPlace(query){
+        if (!query) return;
+        try{
+          const res = await fetch('https://nominatim.openstreetmap.org/search?format=json&q='+encodeURIComponent(query));
+          const data = await res.json();
+          if (!data || !data.length) { alert('No results found'); return; }
+          const first = data[0];
+          const lat = parseFloat(first.lat);
+          const lon = parseFloat(first.lon);
+          // ensure leaflet is ready
+          loadLeaflet().then(()=>{
+            initSmallMap();
+            smallMap.setView([lat,lon], 13);
+            if (smallMarker) smallMarker.setLatLng([lat,lon]); else smallMarker = L.marker([lat,lon]).addTo(smallMap).bindPopup(first.display_name).openPopup();
+            const note = document.getElementById('map-note'); if (note) note.textContent = first.display_name;
+          });
+        }catch(e){ console.error(e); alert('Search failed'); }
+      }
+
+      document.getElementById('map-search-btn')?.addEventListener('click', ()=>{
+        const q = document.getElementById('map-search-input').value.trim();
+        if (q) searchPlace(q);
+      });
+      document.getElementById('map-search-input')?.addEventListener('keydown', e=>{ if (e.key==='Enter'){ e.preventDefault(); document.getElementById('map-search-btn').click(); } });
+
+      // locate button
+      document.getElementById('locate-btn')?.addEventListener('click', ()=>{
+        loadLeaflet().then(()=>{
+          initSmallMap();
+          if (!navigator.geolocation){ alert('Geolocation not supported'); return; }
+          navigator.geolocation.getCurrentPosition(pos=>{
+            const {latitude,longitude} = pos.coords;
+            if (smallMarker) smallMarker.setLatLng([latitude,longitude]).openPopup();
+            else smallMarker = L.marker([latitude,longitude]).addTo(smallMap).bindPopup('You are here').openPopup();
+            smallMap.setView([latitude,longitude], 13);
+            const note = document.getElementById('map-note'); if (note) note.textContent = 'Location shown on the map.';
+            // update large map marker if open
+            if (largeMap){ largeMap.setView([latitude,longitude],13); largeMarker.setLatLng([latitude,longitude]).openPopup(); }
+          }, err=>{ alert('Unable to get location: '+err.message); }, {enableHighAccuracy:true, timeout:10000});
+        });
+      });
+
+      // lazy load when map scrolls into view or user interacts
+      const observer = new IntersectionObserver(entries=>{
+        entries.forEach(e=>{
+          if (e.isIntersecting){
+            loadLeaflet().then(()=>initSmallMap()).catch(()=>{});
+            observer.disconnect();
+          }
+        });
+      }, {rootMargin:'300px'});
+      observer.observe(mapEl);
+
+      // also load when user focuses or interacts with map controls
+      document.getElementById('map-search-input')?.addEventListener('focus', ()=>{ loadLeaflet().then(()=>initSmallMap()).catch(()=>{}); });
+      document.getElementById('open-map-btn')?.addEventListener('focus', ()=>{ loadLeaflet().then(()=>initSmallMap()).catch(()=>{}); });
+    })();
+  </script>
+
+</body>
+</html>

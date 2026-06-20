@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Submitted Messages</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+      min-height: 100vh;
+      padding: 32px;
+    }
+    h1 {
+      margin-bottom: 18px;
+      font-size: clamp(2rem, 3vw, 2.75rem);
+      color: #38bdf8;
+    }
+    .info {
+      margin-bottom: 24px;
+      color: rgba(229, 231, 235, 0.82);
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(147, 166, 185, 0.18);
+      border-radius: 24px;
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+    .card h2 {
+      margin-top: 0;
+      margin-bottom: 8px;
+      font-size: 1.2rem;
+    }
+    .card p {
+      margin: 6px 0;
+      color: rgba(229, 231, 235, 0.82);
+      line-height: 1.6;
+    }
+    .card small {
+      color: rgba(229, 231, 235, 0.6);
+    }
+    .empty {
+      padding: 24px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.04);
+      color: rgba(229, 231, 235, 0.76);
+      border: 1px dashed rgba(147, 166, 185, 0.22);
+    }
+    a {
+      color: #38bdf8;
+      text-decoration: none;
+    }
+    .top-link {
+      display: inline-block;
+      margin-bottom: 18px;
+      color: rgba(255, 255, 255, 0.84);
+    }
+  </style>
+</head>
+<body>
+  <a class="top-link" href="/">← Back to Portfolio</a>
+  <h1>Saved contact submissions</h1>
+  <div class="info">This page loads stored submissions from the Python backend file <code>submissions.json</code>.</div>
+  <div id="messages"></div>
+  <script>
+    async function loadMessages() {
+      try {
+        const res = await fetch('/submissions-data');
+        if (!res.ok) throw new Error('Unable to load messages.');
+        const data = await res.json();
+        const container = document.getElementById('messages');
+        if (!data.length) {
+          container.innerHTML = '<div class="empty">No submissions yet.</div>';
+          return;
+        }
+        container.innerHTML = data.map(item => `
+          <div class="card">
+            <h2>${item.name}</h2>
+            <p><strong>Email:</strong> ${item.email}</p>
+            <p>${item.message.replace(/\n/g, '<br>')}</p>
+            <small>Submitted at: ${item.submitted_at}</small>
+          </div>
+        `).join('');
+      } catch (error) {
+        document.getElementById('messages').innerHTML = `<div class="empty">${error.message}</div>`;
+      }
+    }
+    loadMessages();
+  </script>
+</body>
+</html>
